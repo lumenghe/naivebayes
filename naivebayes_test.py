@@ -21,3 +21,17 @@ def gaussian(x, mu, sig):
 class NaiveBayes(object):
     def __init__(self, size):
         self.size = size
+
+    def fit(self, X, Y):
+        if len(X)!=len(Y):
+            raise ValueError("X should have same size as Y")
+        training_X = {}
+        self.X_mean = {}
+        self.X_std = {}
+        self.P = {}
+        for i in range(len(Y)):
+            training_X.setdefault(Y[i], []).append(X[i])
+        for i in range(self.size):
+            self.X_mean[i] = np.array(training_X[i]).mean(axis=0)
+            self.X_std[i] = np.array(training_X[i]).std(axis=0)
+            self.P[i] = 1.0 * len(training_X[i]) / len(Y)
