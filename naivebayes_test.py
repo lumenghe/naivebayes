@@ -17,3 +17,7 @@ from sklearn.model_selection import train_test_split
 
 def gaussian(x, mu, sig):
     return -np.power(x - mu, 2.) / (2 * np.power(sig, 2.))
+
+class NaiveBayes(object):
+    def __init__(self, size):
+        self.size = size
