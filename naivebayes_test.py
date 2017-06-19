@@ -48,3 +48,40 @@ class NaiveBayes(object):
             Y.append(y)
         return np.array(Y)
 
+
+if __name__=='__main__':
+    # Prepare datasets
+    iris = datasets.load_iris()
+    """
+    Code for manual split:
+    X = iris.data
+    Y = iris.target
+    l = list(zip(X, Y))
+    random.shuffle(l)
+    X, Y = zip(*l)
+    split_point = int(len(X)*0.6)
+    Xtrain = X[:split_point]
+    Ytrain = Y[:split_point]
+    Xtest = X[split_point:]
+    Ytest = Y[split_point:]
+    """
+    iris = datasets.load_iris()
+    Xtrain, Xtest, Ytrain, Ytest = train_test_split(iris.data, iris.target, test_size=0.4, random_state=0)
+    # My naive Bayes model
+    classifier = NaiveBayes(len(set(Ytrain)))
+    classifier.fit(Xtrain, Ytrain)
+    predicts = classifier.predict(Xtest)
+    score = metrics.accuracy_score(Ytest, predicts)
+    print("My Naive Bayes accuracy score: {}".format(round(score * 100, 2)))
+    # sklearn naive Bayes model
+    classifier = GaussianNB()
+    classifier.fit(Xtrain, Ytrain)
+    predicts = classifier.predict(Xtest)
+    score = metrics.accuracy_score(Ytest, predicts)
+    print("sklearn Naive Bayes accuracy score: {}".format(round(score * 100, 2)))
+    # sklearn random forest model
+    random_forest = RandomForestClassifier()
+    random_forest.fit(Xtrain, Ytrain)
+    predicts = random_forest.predict(Xtest)
+    score = metrics.accuracy_score(Ytest, predicts)
+    print("sklearn Random Forest accuracy score: {}".format(round(score * 100, 2)))
