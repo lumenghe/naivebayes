@@ -35,3 +35,16 @@ class NaiveBayes(object):
             self.X_mean[i] = np.array(training_X[i]).mean(axis=0)
             self.X_std[i] = np.array(training_X[i]).std(axis=0)
             self.P[i] = 1.0 * len(training_X[i]) / len(Y)
+
+    def predict(self, Xtest):
+        Y = []
+        product = {}
+        for i in range(len(Xtest)):
+            c = Counter()
+            for k in range(self.size):
+                product[k] = np.sum(gaussian(Xtest[i], self.X_mean[k], self.X_std[k])) + np.log(self.P[k])
+                c[k] = product[k]
+            y = list(c.most_common(1)[0])[0]
+            Y.append(y)
+        return np.array(Y)
+
