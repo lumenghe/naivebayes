@@ -2,7 +2,7 @@
 Implementation of Naive Bayes and test on IRIS dataset.
 Comparison with sklearn implementation and Random Forest
 
-run: python ml_test.py
+run: python naivebayes_test.py
 """
 from __future__ import print_function
 from six.moves import zip, range
